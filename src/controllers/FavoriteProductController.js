@@ -24,6 +24,27 @@ module.exports = {
     }
   },
 
+  // Obtener todos los productos favoritos de un usuario
+// Obtener todos los productos favoritos de un usuario
+getFavoriteProductsByUser: async (req, res) => {
+  const userId = req.params.userId; // Obtener el userId desde los parámetros de la URL
+
+  try {
+    // Buscar productos favoritos donde el 'user_id' coincida con el parámetro recibido
+    const respuesta = await FavoriteProductModel.find({ user_id: userId }); // Nota: Cambié 'userId' por 'user_id'
+    
+    if (respuesta.length > 0) {
+      res.status(200).send(respuesta); // Enviar la lista de productos favoritos si se encontraron
+    } else {
+      res.status(404).send("No se encontraron productos favoritos para este usuario"); // Si no hay productos favoritos
+    }
+  } catch (error) {
+    console.log("Error al obtener los productos favoritos del usuario:", error);
+    res.status(500).send("Error al obtener los productos favoritos");
+  }
+},
+
+
   // Actualizar un producto favorito por su ID
   updateFavoriteProduct: async (req, res) => {
     const body = req.body;

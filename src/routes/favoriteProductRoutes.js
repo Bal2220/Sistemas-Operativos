@@ -9,5 +9,5 @@ router.post("/", favoriteProductController.createFavoriteProduct);  // Crear un 
 router.get("/ls", favoriteProductController.getAllFavoriteProducts);  // Obtener todos los productos favoritos
 router.put("/:id", favoriteProductController.updateFavoriteProduct);  // Actualizar un producto favorito por su id
 router.delete("/:id", favoriteProductController.deleteFavoriteProduct);  // Eliminar un producto favorito por su id
-
+router.get('/user/:userId', favoriteProductController.getFavoriteProductsByUser);
 module.exports = router;

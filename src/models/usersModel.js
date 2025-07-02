@@ -6,9 +6,43 @@ const addressSchema = new mongoose.Schema({
 });
 
 const cardSchema = new mongoose.Schema({
-  card_id: mongoose.Schema.Types.ObjectId,
-  card_number: String,
-  card_type: String
+  card_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    unique: true, // Asegúrate de que cada tarjeta tenga un ID único
+  },
+  card_number: {
+    type: String,
+    required: true,
+  },
+  card_type: {
+    type: String,
+    required: true, // Ejemplo: 'Visa', 'MasterCard', etc.
+  },
+  expiration_month_year: {
+    type: String,
+    required: true,
+    validate: {
+      validator: function(value) {
+        return /^\d{2}\/\d{2}$/.test(value); // Formato MM/AA
+      },
+      message: 'El formato de la fecha de expiración debe ser MM/AA',
+    },
+  },
+  cvv: {
+    type: String,
+    required: true,
+    validate: {
+      validator: function(value) {
+        return /^[0-9]{3,4}$/.test(value); // CVV debe ser 3 o 4 dígitos
+      },
+      message: 'El CVV debe contener 3 o 4 dígitos',
+    },
+  },
+  cardholder_name: {
+    type: String,
+    required: true,
+  },
 });
 
 const userSchema = new mongoose.Schema({
