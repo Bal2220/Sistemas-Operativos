@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  webapp:
+    container_name: lunette_app
+    restart: always
+    build: .
+    ports:
+      - "5000:3000"
+    links: 
+      - database
+  database:
+    container_name: lunette_db
+    image: mongo
+    ports:
+      - "27019:27017"
+
+
+      
