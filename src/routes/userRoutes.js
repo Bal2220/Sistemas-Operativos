@@ -12,5 +12,8 @@ router.delete("/:id", userController.deleteUser);
 router.post("/login", userController.loginUser); 
 router.post("/add-card", userController.addCard);
 router.post("/add-address", userController.addAddress);
+router.get("/:userId", userController.getUserById);
+router.get("/:userId/addresses", userController.getUserAddresses);
+router.get("/:userId/cards", userController.getUserCards);
 
 module.exports = router;

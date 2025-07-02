@@ -74,6 +74,22 @@ module.exports = {
     }
   },
 
+  // Obtener todas las órdenes de un usuario por su ID
+getOrdersByUserId: async (req, res) => {
+  const userId = req.params.userId;  // Obtener el ID del usuario desde los parámetros de la URL
+
+  try {
+    const respuesta = await OrderModel.find({ user_id: userId });  // Buscar todas las órdenes del usuario
+    if (!respuesta || respuesta.length === 0) {
+      return res.status(404).send("No se encontraron órdenes para este usuario.");
+    }
+    res.send(respuesta);  // Enviar las órdenes del usuario
+  } catch (error) {
+    console.log("Error al obtener las órdenes del usuario:", error);
+    res.status(500).send("Error al obtener las órdenes del usuario");
+  }
+},
+
   // Actualizar una orden por su ID
   updateOrder: async (req, res) => {
     const id = req.params.id; // Obtener el ID de la orden a actualizar
