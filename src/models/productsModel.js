@@ -4,6 +4,8 @@ const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
   price: { type: mongoose.Schema.Types.Decimal128, required: true },
   description: String,
+  photos: [String],
+  stock_quantity: { type: Number, required: true },
   category_ids: [{ type: mongoose.Schema.Types.ObjectId, required: true }],
   available: { type: Boolean, required: true }
 }, { versionKey: false });
