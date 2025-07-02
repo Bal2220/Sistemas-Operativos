@@ -24,16 +24,17 @@ createUser: async (req, res) => {
     // Crear un carrito vacío para el usuario
     await shoppingCartController.createShoppingCart({
       body: { user_id: user._id, products: [] },  // Enviar un carrito vacío
-    });
+    }, res);  // No enviar respuesta aquí
 
-    // Responder con el usuario creado
-    res.send(user);  // Responder con el usuario, solo una vez aquí
-
+    // Responder solo con el ID del usuario
+    res.send({ userId: user._id });  // Solo devolver el ID del usuario creado
   } catch (error) {
     console.log("Error al crear el usuario:", error);
     res.status(500).send("Error al crear el usuario");
   }
 },
+
+
 
   loginUser: async (req, res) => {
     const { email, password_hash } = req.body;
