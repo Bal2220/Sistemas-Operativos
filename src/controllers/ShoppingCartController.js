@@ -18,13 +18,11 @@ createShoppingCart: async (req, res) => {
     // Si no existe, crear el carrito de compras
     const carrito = await ShoppingCartModel.create(body);
     
-    // Devolver el carrito creado al controlador de usuario o al cliente
-    return res.send(carrito);
   } catch (error) {
     console.log("Error al crear el carrito de compras:", error);
-    res.status(500).send("Error al crear el carrito de compras");
   }
 },
+
 
 
 
