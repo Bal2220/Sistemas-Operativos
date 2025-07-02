@@ -1,0 +1,88 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* General Body Setup */
+body {
+  font-family: 'Arial', sans-serif;
+  background: #f1e1e6; /* Soft pastel background */
+  color: #3b3b3b;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Hero Section */
+.hero {
+  background-color: #cd8383;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  padding: 0 20px;
+}
+
+/* Overlay to make the text more readable */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: -1;
+}
+
+/* Hero Content */
+.hero-content {
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hero-content h1 {
+  font-size: 5rem;
+  margin-bottom: 20px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font-family: 'Georgia', serif;
+}
+
+.tagline {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.description {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+/* Button Styling */
+.btn-container {
+  margin-top: 30px;
+}
+
+.btn {
+  background-color: #e28a8a;
+  color: #fff;
+  padding: 12px 30px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  border-radius: 50px;
+  transition: 0.3s;
+}

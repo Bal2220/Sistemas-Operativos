@@ -1,12 +1,13 @@
+
+/*
 const {Router} = require('express')
 
 const router = Router()
 
-const ModelUser = require("../models/usersModel.js");
+//const ModelUser = require("../models/usersModel.js");
 const ModelRole = require("../models/rolesModel.js");
 const ModelSessionToken = require("../models/sessionTokensModel.js");
 const ModelProduct = require("../models/productsModel.js");
-const ModelCategory = require("../models/categoriesModel.js");
 const ModelOrder = require("../models/ordersModel.js");
 const ModelShoppingCart = require("../models/shoppingCartsModel.js");
 const ModelReview = require("../models/reviewModel.js");
@@ -19,9 +20,11 @@ router.get("/", (req, res) => {
 })
 
 module.exports = router 
-
+*/
 // Operaciones CRUD para User
 // Create
+
+/*
 router.post("/users", async (req, res) => {
   const body = req.body;
   const respuesta = await ModelUser.create(body);
@@ -91,9 +94,10 @@ router.delete("/session_tokens/:id", async (req, res) => {
   const respuesta = await ModelSessionToken.deleteOne({ _id: id });
   res.send(respuesta);
 });
-
+*/
 
 // Operaciones CRUD para Product
+/*
 router.post("/products", async (req, res) => {
   const body = req.body;
   const respuesta = await ModelProduct.create(body);
@@ -113,10 +117,11 @@ router.delete("/products/:id", async (req, res) => {
   const id = req.params.id;
   const respuesta = await ModelProduct.deleteOne({ _id: id });
   res.send(respuesta);
-});
+});*/
 
 
 // Operaciones CRUD para Category
+/*
 router.post("/categories", async (req, res) => {
   const body = req.body;
   const respuesta = await ModelCategory.create(body);
@@ -137,9 +142,10 @@ router.delete("/categories/:id", async (req, res) => {
   const respuesta = await ModelCategory.deleteOne({ _id: id });
   res.send(respuesta);
 });
-
+*/
 
 // Operaciones CRUD para Order
+/*
 router.post("/orders", async (req, res) => {
   const body = req.body;
   const respuesta = await ModelOrder.create(body);
@@ -160,9 +166,10 @@ router.delete("/orders/:id", async (req, res) => {
   const respuesta = await ModelOrder.deleteOne({ _id: id });
   res.send(respuesta);
 });
-
+*/
 
 // Operaciones CRUD para Shopping Cart
+/*
 router.post("/shopping_carts", async (req, res) => {
   const body = req.body;
   const respuesta = await ModelShoppingCart.create(body);
@@ -183,9 +190,10 @@ router.delete("/shopping_carts/:id", async (req, res) => {
   const respuesta = await ModelShoppingCart.deleteOne({ _id: id });
   res.send(respuesta);
 });
-
+*/
 
 // Operaciones CRUD para Review
+/*
 router.post("/reviews", async (req, res) => {
   const body = req.body;
   const respuesta = await ModelReview.create(body);
@@ -206,9 +214,10 @@ router.delete("/reviews/:id", async (req, res) => {
   const respuesta = await ModelReview.deleteOne({ _id: id });
   res.send(respuesta);
 });
-
+*/
 
 // Operaciones CRUD para Review Comment
+/*
 router.post("/review_comments", async (req, res) => {
   const body = req.body;
   const respuesta = await ModelReviewComment.create(body);
@@ -229,9 +238,10 @@ router.delete("/review_comments/:id", async (req, res) => {
   const respuesta = await ModelReviewComment.deleteOne({ _id: id });
   res.send(respuesta);
 });
-
+*/
 
 // Operaciones CRUD para Favorite Product
+/*
 router.post("/favorite_products", async (req, res) => {
   const body = req.body;
   const respuesta = await ModelFavoriteProduct.create(body);
@@ -252,9 +262,10 @@ router.delete("/favorite_products/:id", async (req, res) => {
   const respuesta = await ModelFavoriteProduct.deleteOne({ _id: id });
   res.send(respuesta);
 });
-
+*/
 
 // Operaciones CRUD para Reaction
+/*
 router.post("/reactions", async (req, res) => {
   const body = req.body;
   const respuesta = await ModelReaction.create(body);
@@ -275,3 +286,4 @@ router.delete("/reactions/:id", async (req, res) => {
   const respuesta = await ModelReaction.deleteOne({ _id: id });
   res.send(respuesta);
 });
+*/

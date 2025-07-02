@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // ENV Produccion
-mongoose.connect("mongodb://admin:admin123@172.191.215.190:27017/LunetteApp?authSource=admin")
+mongoose.connect("mongodb://admin:admin123@172.191.2.103:27017/LunetteApp?authSource=admin")
   .then(db => console.log("DB is connected to", db.connection.host))
   .catch(err => console.error(err));
 

@@ -6,8 +6,7 @@ const reviewSchema = new mongoose.Schema({
   rating: { type: Number, required: true },
   comment: { type: String, required: true },
   created_at: { type: Date, required: true },
-  additional_photos: [String],
-  likes_count: Number
+  additional_photos: [String]
 }, { versionKey: false });
 
 const ModelReview = mongoose.model("Review", reviewSchema);
