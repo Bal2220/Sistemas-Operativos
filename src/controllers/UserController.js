@@ -98,45 +98,61 @@ createUser: async (req, res) => {
     }
   },
 
-  addCard: async (req, res) => {
-    const { user_id, card_number, card_type } = req.body;
+addCard: async (req, res) => {
+  const { user_id, card_number, card_type, expiration_month_year, cvv, cardholder_name } = req.body;
 
-    // Validar que el user_id y los detalles de la tarjeta sean proporcionados
-    if (!mongoose.Types.ObjectId.isValid(user_id)) {
-      return res.status(400).send("Invalid user_id format");
-    }
+  // Validar que el user_id y los detalles de la tarjeta sean proporcionados
+  if (!mongoose.Types.ObjectId.isValid(user_id)) {
+    return res.status(400).send("Invalid user_id format");
+  }
+
+  if (!card_number || !card_type || !expiration_month_year || !cvv || !cardholder_name) {
+    return res.status(400).send("Card details (card_number, card_type, expiration_month_year, cvv, cardholder_name) are required");
+  }
+
+  // Validación de formato de la fecha de expiración (MM/AA)
+  const expirationDateRegex = /^\d{2}\/\d{2}$/;
+  if (!expirationDateRegex.test(expiration_month_year)) {
+    return res.status(400).send("Invalid expiration date format. It should be MM/AA");
+  }
+
+  // Validar que el CVV sea de 3 o 4 dígitos
+  const cvvRegex = /^[0-9]{3,4}$/;
+  if (!cvvRegex.test(cvv)) {
+    return res.status(400).send("Invalid CVV format. It should be 3 or 4 digits");
+  }
+
+  try {
+    // Buscar al usuario por su ID
+    const user = await UserModel.findById(user_id);
     
-    if (!card_number || !card_type) {
-      return res.status(400).send("Card details (card_number, card_type) are required");
+    if (!user) {
+      return res.status(404).send("User not found");
     }
 
-    try {
-      // Buscar al usuario por su ID
-      const user = await UserModel.findById(user_id);
-      
-      if (!user) {
-        return res.status(404).send("User not found");
-      }
+    // Crear el objeto tarjeta con los nuevos datos
+    const newCard = {
+      card_id: mongoose.Types.ObjectId(),
+      card_number, // Los últimos 4 dígitos del número de tarjeta podrían guardarse si lo deseas
+      card_type,
+      expiration_month_year,
+      cvv,
+      cardholder_name,
+    };
 
-      // Crear el objeto tarjeta
-      const newCard = {
-        card_id: mongoose.Types.ObjectId(),
-        card_number,
-        card_type,
-      };
+    // Añadir la tarjeta al array de tarjetas del usuario
+    user.cards.push(newCard);
 
-      // Añadir la tarjeta al array de tarjetas del usuario
-      user.cards.push(newCard);
+    // Guardar el usuario con la nueva tarjeta
+    await user.save();
 
-      // Guardar el usuario con la nueva tarjeta
-      await user.save();
+    res.status(200).send("Card added successfully");
+  } catch (error) {
+    console.log("Error al añadir tarjeta:", error);
+    res.status(500).send("Error al añadir tarjeta");
+  }
+},
 
-      res.status(200).send("Card added successfully");
-    } catch (error) {
-      console.log("Error al añadir tarjeta:", error);
-      res.status(500).send("Error al añadir tarjeta");
-    }
-  },
 
   addAddress: async (req, res) => {
     const { user_id, full_address, is_default } = req.body;
