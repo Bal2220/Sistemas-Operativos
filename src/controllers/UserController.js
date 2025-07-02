@@ -137,7 +137,7 @@ createUser: async (req, res) => {
     }
   },
 
-   addAddress: async (req, res) => {
+  addAddress: async (req, res) => {
     const { user_id, full_address, is_default } = req.body;
 
     // Validar que el user_id y los detalles de la dirección sean proporcionados
@@ -175,5 +175,55 @@ createUser: async (req, res) => {
       console.log("Error al añadir dirección:", error);
       res.status(500).send("Error al añadir dirección");
     }
+  },
+
+  getUserById: async (req, res) => {
+    const userId = req.params.userId;  // Obtener el ID del usuario de los parámetros de la URL
+
+    try {
+      // Buscar al usuario por su ID
+      const user = await UserModel.findById(userId);
+      if (!user) {
+        return res.status(404).send('Usuario no encontrado');
+      }
+      res.send(user);  // Enviar la respuesta con el usuario encontrado
+    } catch (error) {
+      console.log("Error al obtener el usuario:", error);
+      res.status(500).send("Error al obtener el usuario");
+    }
+  },
+
+
+  // Obtener todas las direcciones de un usuario por su ID
+getUserAddresses: async (req, res) => {
+  const userId = req.params.userId;  // Obtener el ID del usuario de los parámetros de la URL
+
+  try {
+    // Buscar el usuario por ID y extraer solo las direcciones
+    const user = await UserModel.findById(userId, 'addresses'); // Solo traer las direcciones
+    if (!user) {
+      return res.status(404).send('Usuario no encontrado');
+    }
+    res.send(user.addresses);  // Enviar las direcciones del usuario
+  } catch (error) {
+    console.log("Error al obtener las direcciones del usuario:", error);
+    res.status(500).send("Error al obtener las direcciones del usuario");
   }
+},
+// Obtener todas las tarjetas de un usuario por su ID
+getUserCards: async (req, res) => {
+  const userId = req.params.userId;  // Obtener el ID del usuario de los parámetros de la URL
+
+  try {
+    // Buscar el usuario por ID y extraer solo las tarjetas
+    const user = await UserModel.findById(userId, 'cards'); // Solo traer las tarjetas
+    if (!user) {
+      return res.status(404).send('Usuario no encontrado');
+    }
+    res.send(user.cards);  // Enviar las tarjetas del usuario
+  } catch (error) {
+    console.log("Error al obtener las tarjetas del usuario:", error);
+    res.status(500).send("Error al obtener las tarjetas del usuario");
+  }}
+
 };
