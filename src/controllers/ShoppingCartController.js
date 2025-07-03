@@ -1,5 +1,5 @@
 const ShoppingCartModel = require("../models/shoppingCartsModel");
-
+const mongoose = require("mongoose");
 module.exports = {
   // Crear un nuevo carrito de compras
 createShoppingCart: async (req, res) => {
@@ -27,14 +27,58 @@ createShoppingCart: async (req, res) => {
 
 
 
-  getShoppingCartByUserId: async (req, res) => {
-    const userId = req.params.userId;  // Obtener el ID del usuario de los parámetros de la URL
+getShoppingCartByUserId: async (req, res) => {
+    const userId = req.params.userId;  // Obtener el ID del usuario desde los parámetros de la URL
     try {
-      const respuesta = await ShoppingCartModel.findOne({ user_id: userId });  // Buscar el carrito del usuario
-      if (!respuesta) {
+      const respuesta = await ShoppingCartModel.aggregate([
+        // Paso 1: Filtrar el carrito de compras por el user_id
+        { 
+          $match: { user_id: mongoose.Types.ObjectId(userId) } 
+        },
+
+        // Paso 2: Desenrollar el array de productos para trabajar con cada producto individualmente
+        { $unwind: "$products" },
+
+        // Paso 3: Hacer un $lookup para obtener los detalles del producto (como la foto) desde la colección "products"
+        {
+          $lookup: {
+            from: "products",  // La colección con la que queremos hacer el join
+            localField: "products.product_id",  // Campo en el carrito que referencia al producto
+            foreignField: "_id",  // Campo en la colección de productos que hace el match
+            as: "product_details"  // Alias para los detalles del producto
+          }
+        },
+
+        // Paso 4: Desenrollar el array "product_details" para acceder a la información del producto
+        { $unwind: "$product_details" },
+
+        // Paso 5: Seleccionar solo los campos necesarios y obtener la primera foto del producto
+        {
+          $project: {
+            "user_id": 1,
+            "products.product_id": 1,
+            "products.quantity": 1,
+            "product_details.name": 1,
+            "product_details.price": 1,
+            "product_details.photo_url": { $arrayElemAt: ["$product_details.photos", 0] }  // Obtener solo la primera foto
+          }
+        }
+      ]);
+
+      if (!respuesta || respuesta.length === 0) {
         return res.status(404).send("Carrito de compras no encontrado para este usuario.");
       }
-      res.send(respuesta);  // Enviar el carrito encontrado al cliente
+
+      // Reestructuramos la respuesta para devolver el carrito con los productos y sus fotos
+      const productos = respuesta.map(item => ({
+        product_id: item.products.product_id,
+        quantity: item.products.quantity,
+        name: item.product_details.name,
+        price: item.product_details.price,
+        photo_url: item.product_details.photo_url  // Incluir la foto del producto
+      }));
+
+      res.send({ user_id: userId, products: productos });  // Enviar el carrito con los productos y fotos
     } catch (error) {
       console.log("Error al obtener el carrito de compras del usuario:", error);
       res.status(500).send("Error al obtener el carrito de compras del usuario");
