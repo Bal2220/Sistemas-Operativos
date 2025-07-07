@@ -146,7 +146,8 @@ addCard: async (req, res) => {
     // Guardar el usuario con la nueva tarjeta
     await user.save();
 
-    res.status(200).send("Card added successfully");
+    //res.status(200).send("Card added successfully");
+    res.status(200).send(newCard);
   } catch (error) {
     console.log("Error al añadir tarjeta:", error);
     res.status(500).send("Error al añadir tarjeta");
@@ -187,7 +188,8 @@ addCard: async (req, res) => {
       // Guardar el usuario con la nueva dirección
       await user.save();
 
-      res.status(200).send("Address added successfully");
+      //res.status(200).send("Address added successfully");
+      res.status(200).send(newAddress);
     } catch (error) {
       console.log("Error al añadir dirección:", error);
       res.status(500).send("Error al añadir dirección");
